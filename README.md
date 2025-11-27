@@ -1,50 +1,102 @@
-# Welcome to your Expo app 👋
+# Notification App with Expo and Firebase Cloud Messaging
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+This is a React Native application built with Expo that demonstrates how to implement both local and push notifications using Firebase Cloud Messaging (FCM).
 
-## Get started
+## Features
 
-1. Install dependencies
+- Local notifications
+- Push notifications via Firebase Cloud Messaging
+- Notification handling in both foreground and background
+- Simple UI for testing notifications
+- Backend server for sending push notifications
 
-   ```bash
-   npm install
-   ```
+## Prerequisites
 
-2. Start the app
+- Node.js (v14 or later)
+- npm or yarn
+- Expo CLI (`npm install -g expo-cli`)
+- Firebase account (for FCM)
+- Physical device or emulator for testing push notifications
 
-   ```bash
-   npx expo start
-   ```
+## Setup Instructions
 
-In the output, you'll find options to open the app in a
-
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
-
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
+### 1. Clone the repository
 
 ```bash
-npm run reset-project
+git clone <repository-url>
+cd notificatio_app
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+### 2. Install dependencies
 
-## Learn more
+```bash
+npm install
+cd server
+npm install
+cd ..
+```
 
-To learn more about developing your project with Expo, look at the following resources:
+### 3. Set up Firebase
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+1. Go to the [Firebase Console](https://console.firebase.google.com/)
+2. Create a new project
+3. Enable Cloud Messaging
+4. Download the `google-services.json` file and place it in the project root
+5. Go to Project Settings > Service Accounts and generate a new private key
+6. Save the private key as `server/serviceAccountKey.json`
 
-## Join the community
+### 4. Configure the App
 
-Join our community of developers creating universal apps.
+1. Update `app.json` with your Firebase project details
+2. Update the `API_URL` in `services/notifications.js` with your server's IP address
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+### 5. Start the development server
+
+In one terminal, start the backend server:
+
+```bash
+cd server
+node index.js
+```
+
+In another terminal, start the Expo app:
+
+```bash
+npx expo start
+```
+
+## Testing Notifications
+
+1. **Local Notifications**: Tap the "Schedule Local Notification" button to schedule a local notification that will appear after 1 second.
+
+2. **Push Notifications**: 
+   - Tap the "Send Push Notification" button to send a test notification to all registered devices.
+   - The app will automatically register the device token with the server when it starts.
+
+## Project Structure
+
+- `/app` - Main application code
+- `/server` - Backend server for handling push notifications
+- `/services` - Shared services (e.g., notification handling)
+- `/assets` - Static assets (images, fonts, etc.)
+
+## Important Notes
+
+- For iOS, you'll need to set up push notification certificates in your Apple Developer account.
+- For Android, ensure you've set up the correct package name and SHA-1/SHA-256 keys in Firebase.
+- The app is configured to work in development mode. For production, you should:
+  - Use a proper database to store device tokens
+  - Implement user authentication
+  - Set up proper error handling and logging
+
+## Troubleshooting
+
+- If you don't receive push notifications, check the following:
+  - The device token is being registered correctly
+  - The server is running and accessible
+  - Firebase Cloud Messaging is properly configured
+  - The app has the necessary permissions
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
